@@ -43,6 +43,7 @@ module Spree
     def tax_for_item(item)
       order = item.order
       ##AP ADDITION: Modify code to get ship_address from shipment
+      return 0 unless item.inventory_units.any?
       shipment = item.inventory_units.first.shipment
       item_address = shipment.address || order.billing_address
       ##END AP ADDITION
