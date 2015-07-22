@@ -43,7 +43,7 @@ module Spree
       
       index = -1 # array is zero-indexed
       # Prepare line_items for lookup
-      shipments.line_items.each { |line_item| transaction.cart_items << cart_item_from_item(line_item, index += 1) }
+      line_items.each { |line_item| transaction.cart_items << cart_item_from_item(line_item, index += 1) }
       
       transaction.cart_items << cart_item_from_item(shipment)
       transaction
