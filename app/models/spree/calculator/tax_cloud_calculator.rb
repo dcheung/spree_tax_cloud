@@ -42,7 +42,10 @@ module Spree
 
     def tax_for_item(item)
       order = item.order
-      item_address = order.ship_address || order.billing_address
+      ##AP ADDITION: Modify code to get ship_address from shipment
+      shipment = item.inventory_units.first.shipment
+      item_address = shipment.address || order.billing_address
+      ##END AP ADDITION
       # Only calculate tax when we have an address and it's in our jurisdiction
       return 0 unless item_address.present? && calculable.zone.include?(item_address)
 
