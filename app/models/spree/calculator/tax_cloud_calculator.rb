@@ -56,7 +56,8 @@ module Spree
         # TODO An ideal implementation will break the order down by Shipments / Packages
         # and use the actual StockLocation address for each separately, and create Adjustments
         # for the Shipments to reflect tax on shipping.
-        transaction = Spree::TaxCloud.transaction_from_order(order)
+        
+        transaction = Spree::TaxCloud.transaction_from_shipment(shipment)
         lookup_cart_items = transaction.lookup.cart_items
 
         # Now we will loop back through the items and assign them amounts from the lookup.

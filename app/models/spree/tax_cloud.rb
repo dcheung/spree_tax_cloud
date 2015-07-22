@@ -28,6 +28,27 @@ module Spree
       order.shipments.each { |shipment| transaction.cart_items << cart_item_from_item(shipment, index += 1) }
       transaction
     end
+    
+    def self.transaction_from_shipment(shipment)
+      stock_location = shipment.try(:stock_location) || Spree::StockLocation.active.where("city IS NOT NULL and state_id IS NOT NULL").first
+      raise Spree.t(:ensure_one_valid_stock_location) unless stock_location
+      
+      transaction = ::TaxCloud::Transaction.new(
+        customer_id: order.user_id || order.email,
+        order_id: shipment.number,
+        cart_id: shipment.number,
+        origin: address_from_spree_address(stock_location),
+        destination: address_from_spree_address(shipment.address ||
+        order.ship_address || order.billing_address)
+      )
+      
+      index = -1 # array is zero-indexed
+      # Prepare line_items for lookup
+      shipments.line_items.each { |line_item| transaction.cart_items << cart_item_from_item(line_item, index += 1) }
+      
+      transaction.cart_items << cart_item_from_item(shipment)
+      transaction
+    end
 
     # Note that this method can take either a Spree::StockLocation (which has address
     # attributes directly on it) or a Spree::Address object
