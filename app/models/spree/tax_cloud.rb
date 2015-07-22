@@ -38,8 +38,7 @@ module Spree
         order_id: shipment.number,
         cart_id: shipment.number,
         origin: address_from_spree_address(stock_location),
-        destination: address_from_spree_address(shipment.address ||
-        order.ship_address || order.billing_address)
+        destination: address_from_spree_address(shipment.address)
       )
       
       index = -1 # array is zero-indexed
