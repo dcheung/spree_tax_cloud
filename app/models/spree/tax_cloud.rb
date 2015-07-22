@@ -34,7 +34,7 @@ module Spree
       raise Spree.t(:ensure_one_valid_stock_location) unless stock_location
       
       transaction = ::TaxCloud::Transaction.new(
-        customer_id: order.user_id || order.email,
+        customer_id: shipment.order.user_id || shipment.order.email,
         order_id: shipment.number,
         cart_id: shipment.number,
         origin: address_from_spree_address(stock_location),
