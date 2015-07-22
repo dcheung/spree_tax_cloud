@@ -45,7 +45,7 @@ module Spree
       # Prepare line_items for lookup
       shipment.line_items.each { |line_item| transaction.cart_items << cart_item_from_item(line_item, index += 1) }
       
-      transaction.cart_items << cart_item_from_item(shipment)
+      transaction.cart_items << cart_item_from_item(shipment, index += 1)
       transaction
     end
 

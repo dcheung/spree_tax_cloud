@@ -57,9 +57,9 @@ module Spree
         # TODO There may be a way to refactor this,
         # possibly by overriding the TaxCloud::Responses::Lookup model
         # or the CartItems model.
-        index = -1 # array is zero-indexed
         # Retrieve line_items from lookup
         order.shipments.each do |shipment|
+          index = -1 # array is zero-indexed
           # In the case of a cache miss, we recompute the amounts for _all_ the LineItems and Shipments for this Order.
           transaction = Spree::TaxCloud.transaction_from_shipment(shipment)
           lookup_cart_items = transaction.lookup.cart_items
