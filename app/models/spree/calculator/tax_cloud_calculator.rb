@@ -69,7 +69,6 @@ module Spree
             Rails.cache.write(["TaxCloudRatesForItem", line_item.tax_cloud_cache_key], lookup_cart_items[index += 1].tax_amount, time_to_idle: 5.minutes)
           end
           Rails.cache.write(["TaxCloudRatesForItem", shipment.tax_cloud_cache_key], lookup_cart_items[index += 1].tax_amount, time_to_idle: 5.minutes)
-          end
         end
 
         # Lastly, return the particular rate that we were initially looking for
