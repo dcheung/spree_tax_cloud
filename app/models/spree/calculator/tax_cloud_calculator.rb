@@ -63,7 +63,6 @@ module Spree
         # or the CartItems model.
         # Retrieve line_items from lookup
         order.shipments.each do |shipment|
-          byebug
           index = -1 # array is zero-indexed
           # In the case of a cache miss, we recompute the amounts for _all_ the LineItems and Shipments for this Order.
           transaction = Spree::TaxCloud.transaction_from_shipment(shipment)
