@@ -43,8 +43,12 @@ module Spree
     def tax_for_item(item)
       order = item.order
       ##AP ADDITION: Modify code to get ship_address from shipment
-      return 0 unless item.inventory_units.any?
-      shipment = item.inventory_units.first.shipment
+      if item.instance_of?(Spree::LineItem)
+        return 0 unless item.inventory_units.any?
+        shipment = item.inventory_units.first.shipment
+      else
+        shipment = item
+      end
       item_address = shipment.address || order.billing_address
       ##END AP ADDITION
       # Only calculate tax when we have an address and it's in our jurisdiction
@@ -59,6 +63,7 @@ module Spree
         # or the CartItems model.
         # Retrieve line_items from lookup
         order.shipments.each do |shipment|
+          byebug
           index = -1 # array is zero-indexed
           # In the case of a cache miss, we recompute the amounts for _all_ the LineItems and Shipments for this Order.
           transaction = Spree::TaxCloud.transaction_from_shipment(shipment)
